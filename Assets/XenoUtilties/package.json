@@ -1,0 +1,8 @@
+﻿{
+  "name": "com.svily.xeno.utilities",
+  "displayName": "XenoUtilties",
+  "description": "some tools for editor",
+  "url" : "https://github.com/Svily/Xenoutilities.git",
+  "version": "0.0.1",
+  "unity": "2020.3"
+}

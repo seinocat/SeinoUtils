@@ -19,10 +19,8 @@ namespace XenoUtilities
             if (Directory.Exists(path))
             {
                 DirectoryInfo dir = new DirectoryInfo(path);
-                
                 FileInfo[] files = dir.GetFiles("*", SearchOption.AllDirectories);
                 
-
                 foreach (var file in files)
                 {
                     if (file.Name.EndsWith(".meta")) continue;

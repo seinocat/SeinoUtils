@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-namespace XenoUtilities
+namespace Xeno.Utilities
 {
+    /**
+     * 组件相关
+     */
     public static partial class XenoUtilities
     {
         /// <summary>

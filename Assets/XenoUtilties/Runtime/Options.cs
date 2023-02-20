@@ -1,5 +1,9 @@
-﻿namespace XenoUtilities
+﻿namespace Xeno.Utilities
 {
+    /**
+     * 设置相关
+     */
+    
     public enum SearchOptions
     {
         /// <summary>

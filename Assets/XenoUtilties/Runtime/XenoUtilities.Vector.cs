@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-namespace XenoUtilities
+namespace Xeno.Utilities
 {
+    /**
+     * vector2, vector3分量转换
+     */
     public static partial class XenoUtilities
     {
         public static Vector2 Vec2xy(this Vector3 vector)

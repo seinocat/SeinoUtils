@@ -32,10 +32,8 @@ namespace XenoUtilities
                     return child;
                 }
 
-                if (child.childCount > 0)
-                {
-                    return FindTransform_Approximate(child, targetName);
-                }
+                Transform target = FindTransform_Approximate(child, targetName);
+                if (target) return target;
             }
 
             return null;
@@ -54,10 +52,8 @@ namespace XenoUtilities
                     return child;
                 }
 
-                if (child.childCount > 0)
-                {
-                    return FindTransform_Accurate(child, targetName);
-                }
+                Transform target = FindTransform_Accurate(child, targetName);
+                if (target) return target;
             }
 
             return null;

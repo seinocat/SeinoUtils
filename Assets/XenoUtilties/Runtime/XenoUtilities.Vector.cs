@@ -22,7 +22,6 @@ namespace Xeno.Utilities
         public static Vector3 Vec3xz(this Vector3 vector) => new Vector3(vector.x, 0, vector.z);
         
         public static Vector3 Vec3yz(this Vector3 vector) => new Vector3(0, vector.y, vector.z);
-
-
+        
     }
 }

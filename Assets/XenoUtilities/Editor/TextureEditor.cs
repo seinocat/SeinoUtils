@@ -6,16 +6,17 @@ using UnityEngine;
 
 namespace Xeno.Utilities.Editor
 {
+    
+    public enum TargetPlatform
+    {
+        Standalone,
+        IOS,
+        Android
+    }
+    
+    
     public class TextureEditorWindow :EditorWindow
     {
-
-        enum TargetPlatform
-        {
-            Standalone,
-            IOS,
-            Android
-        }
-        
         [MenuItem("Tools/XenoUtilities/TextureEditor")]
         public static void OpenWindow()
         {

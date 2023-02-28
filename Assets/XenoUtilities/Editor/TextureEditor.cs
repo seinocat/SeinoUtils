@@ -15,6 +15,8 @@ namespace Xeno.Utilities.Editor
     }
     
     
+    
+    
     public class TextureEditorWindow :EditorWindow
     {
         [MenuItem("Tools/XenoUtilities/TextureEditor")]
@@ -46,7 +48,7 @@ namespace Xeno.Utilities.Editor
             SelectPlatform = (TargetPlatform)Enum.Parse(typeof(TargetPlatform), EditorGUILayout.EnumPopup("选择目标平台", SelectPlatform).ToString());
             WithAlpha = (TextureImporterFormat)Enum.Parse(typeof(TextureImporterFormat), EditorGUILayout.EnumPopup("有Alpha通道", WithAlpha).ToString());
             WithoutAlpha = (TextureImporterFormat)Enum.Parse(typeof(TextureImporterFormat), EditorGUILayout.EnumPopup("没有Alpha通道", WithoutAlpha).ToString());
-
+            
 
             if (GUILayout.Button("转换"))
             {
@@ -65,6 +67,7 @@ namespace Xeno.Utilities.Editor
                 settings.name = SelectPlatform.ToString();
                 settings.crunchedCompression = true;
                 settings.overridden = true;
+
                 int i = 0;
                 EditorUtility.DisplayProgressBar("修改", "修改图片格式", 0);
                 for (; i < lst.Count; i++)

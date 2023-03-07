@@ -6,15 +6,14 @@ using UnityEngine;
 
 namespace Xeno.Utilities.Editor
 {
-    
     public enum TargetPlatform
     {
         Standalone,
         IOS,
         Android
     }
-    
-    
+
+   
     
     
     public class TextureEditorWindow :EditorWindow
@@ -67,7 +66,7 @@ namespace Xeno.Utilities.Editor
                 settings.name = SelectPlatform.ToString();
                 settings.crunchedCompression = true;
                 settings.overridden = true;
-
+                
                 int i = 0;
                 EditorUtility.DisplayProgressBar("修改", "修改图片格式", 0);
                 for (; i < lst.Count; i++)

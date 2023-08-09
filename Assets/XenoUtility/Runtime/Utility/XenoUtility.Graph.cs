@@ -5,7 +5,7 @@ namespace Xeno.Utilities
     /**
      * 图形相关
      */
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         /// <summary>
         /// 为解决float精度问题

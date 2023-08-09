@@ -5,7 +5,7 @@ namespace Xeno.Utilities
     /**
      * vector2, vector3分量转换
      */
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         public static Vector2 Vec2xy(this Vector3 vector) => new Vector2(vector.x, vector.y);
         

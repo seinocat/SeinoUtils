@@ -5,7 +5,7 @@ namespace Xeno.Utilities
     /**
      * 组件相关
      */
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         /// <summary>
         /// 获取组件，没有就添加

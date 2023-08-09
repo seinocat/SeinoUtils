@@ -9,7 +9,7 @@ namespace Xeno.Utilities
     /**
      * 资源相关
      */
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         public static string GetFileName(string assetPath)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Xeno.Utilities
 {
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         public static T GetLast<T>(this List<T> list)
         {

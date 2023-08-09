@@ -7,7 +7,7 @@ namespace Xeno.Utilities
     /**
      * Transform相关
      */
-    public static partial class XenoUtilities
+    public static partial class XenoUtility
     {
         /// <summary>
         /// 按名称查找节点

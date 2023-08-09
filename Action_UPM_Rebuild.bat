@@ -1,2 +1,2 @@
-git subtree split --prefix=Assets/XenoUtilities --branch upm
+git subtree split --prefix=Assets/XenoUtility --branch upm
 git push origin upm

@@ -4,8 +4,6 @@ on:
   push: 
     tags:
       - '*'
-    branches:
-      -'upm'
       
 permissions:
   contents: write
@@ -17,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-              ref : 'upm'
+              ref : upm
         
       - name: Release
         uses: softprops/action-gh-release@v1

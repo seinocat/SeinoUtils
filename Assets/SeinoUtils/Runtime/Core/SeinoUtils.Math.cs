@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         /// <summary>
         /// 线性插值

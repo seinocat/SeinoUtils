@@ -2,12 +2,12 @@
 using UnityEngine;
 
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
     /**
      * Transform相关
      */
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         /// <summary>
         /// 按名称查找节点

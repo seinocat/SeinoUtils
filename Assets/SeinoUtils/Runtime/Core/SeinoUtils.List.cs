@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         public static T GetLast<T>(this List<T> list)
         {
-            return list[list.Count - 1];
+            return list[^1];
         }
         
     }

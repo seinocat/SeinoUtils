@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
     /**
      * 图形相关
      */
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         /// <summary>
         /// 为解决float精度问题

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
     /**
      * 设置相关

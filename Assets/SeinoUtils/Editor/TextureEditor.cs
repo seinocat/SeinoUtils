@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Xeno.Utilities.Editor
+namespace Seino.Utils.Editor
 {
     public enum TargetPlatform
     {
@@ -13,9 +13,6 @@ namespace Xeno.Utilities.Editor
         Android
     }
 
-   
-    
-    
     public class TextureEditorWindow :EditorWindow
     {
         [MenuItem("Tools/XenoUtilities/TextureEditor")]

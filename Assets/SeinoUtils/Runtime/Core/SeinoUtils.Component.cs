@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
     /**
      * 组件相关
      */
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         /// <summary>
         /// 获取组件，没有就添加

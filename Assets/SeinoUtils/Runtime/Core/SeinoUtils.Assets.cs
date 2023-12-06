@@ -4,12 +4,12 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Xeno.Utilities
+namespace Seino.Utils
 {
     /**
      * 资源相关
      */
-    public static partial class XenoUtility
+    public static partial class SeinoUtils
     {
         public static string GetFileName(string assetPath)
         {

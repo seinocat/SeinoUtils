@@ -1,1 +1,1 @@
-git subtree push --prefix=Assets/XenoIK https://github.com/Svily/XenoUtility.git upm
+git subtree push --prefix=Unity/Assets/SeinoUtils https://github.com/seinocat/SeinoUtils.git upm

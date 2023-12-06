@@ -1,2 +1,2 @@
-git subtree split --prefix=Assets/XenoUtility --branch upm
+git subtree split --prefix=Unity/Assets/SeinoUtils --branch upm
 git push origin upm

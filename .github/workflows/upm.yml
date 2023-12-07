@@ -12,11 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: ClearCache
-        run: |
-          git clean -fdX
-        working-directory: ./path/to/release/assets/
-
       - name: Checkout
         uses: actions/checkout@v3
         with:

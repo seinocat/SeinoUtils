@@ -19,6 +19,6 @@ jobs:
         
       - name: Release
         id: create_release
-        run: gh release create ${{ github.ref }} ./path/to/release/assets/* --target upm
+        run: gh release create ${{ github.ref }} --target upm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -6,7 +6,7 @@ echo No Tags, Exiting...
 exit /b 1
 )
 
-::git subtree push --prefix=Unity/Assets/SeinoUtils https://github.com/seinocat/SeinoUtils.git upm
+git subtree push --prefix=Unity/Assets/SeinoUtils https://github.com/seinocat/SeinoUtils.git upm
 
 for /f "tokens=1" %%i in ('git rev-parse origin/upm') do set "commit_hash=%%i"
 echo remote upm hash: %commit_hash%

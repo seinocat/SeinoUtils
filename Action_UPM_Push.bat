@@ -1,1 +1,0 @@
-git subtree push --prefix=Unity/Assets/SeinoUtils https://github.com/seinocat/SeinoUtils.git upm

@@ -19,7 +19,9 @@ jobs:
 
       - name: Switch Branch
         id: switch_branch
-        run: gh pr checkout upm   
+        run: gh pr checkout upm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
         
       - name: Create Release
         id: create_release

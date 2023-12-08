@@ -15,7 +15,7 @@ namespace Seino.Utils.Editor
 
     public class TextureEditorWindow :EditorWindow
     {
-        [MenuItem("Tools/XenoUtilities/TextureEditor")]
+        [MenuItem("Tools/SeinoUtils/TextureEditor")]
         public static void OpenWindow()
         {
             TextureEditorWindow window = EditorWindow.CreateInstance<TextureEditorWindow>();

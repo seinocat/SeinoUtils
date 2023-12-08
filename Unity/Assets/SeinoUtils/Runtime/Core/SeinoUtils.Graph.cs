@@ -74,25 +74,5 @@ namespace Seino.Utils
             y = (y * 0.5) + 0.5;
             return new Vector3((float)(x * Screen.width), (float)(y * Screen.height), (float)(-vz));
         }
-
-        /// <summary>
-        /// 世界坐标转换Ugui坐标
-        /// </summary>
-        /// <param name="camera"></param>
-        /// <param name="position"></param>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public static Vector2 WorldToUguiPoint(this Camera camera, Vector3 position, Rect rect)
-        {
-            return WorldToUguiPoint(camera, position, rect, Vector2.zero);
-        }
-        
-        public static Vector2 WorldToUguiPoint(this Camera camera, Vector3 position, Rect rect, Vector2 offset)
-        {
-            Vector3 viewPos = camera.WorldToViewportPoint(position);
-            Vector2 uiPos = new Vector2(viewPos.x * rect.width, viewPos.y * rect.height) + offset;
-            return uiPos;
-        }
-
     }
 }

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Seino.Utils
+namespace Seino.Utils.Editor
 {
     /**
      * 资源相关
      */
-    public static partial class SeinoUtils
+    public static partial class SeinoEditorUtils
     {
         public static string GetFileName(string assetPath)
         {
@@ -90,7 +91,27 @@ namespace Seino.Utils
             return list;
         } 
         
+        /// <summary>
+        /// 获取子目录
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="onlyName"></param>
+        /// <returns></returns>
+        public static List<string> GetSubFolders(string path, bool onlyName = false)
+        {
+            var folders = AssetDatabase.GetSubFolders(path).ToList();
+            if (onlyName)
+            {
+                List<string> subFloders = new List<string>();
+                for (int i = 0; i < folders.Count; i++)
+                {
+                    subFloders.Add(Path.GetFileName(folders[i]));
+                }
+                return subFloders;
+            }
+
+            return folders;
+        }
         
-       
     }
 }

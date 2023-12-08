@@ -3,6 +3,6 @@
   "displayName": "Seino.Utils",
   "description": "some utils for unity",
   "url" : "https://github.com/seinocat/SeinoUtils.git",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "2020.3"
 }

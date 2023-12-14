@@ -18,6 +18,19 @@ namespace Seino.Utils
             if (value < target) return Mathf.Clamp(value + Time.deltaTime * increaseSpeed, -Mathf.Infinity, target);
             return Mathf.Clamp(value - Time.deltaTime * decreaseSpeed, target, Mathf.Infinity);
         }
+        
+        /// <summary>
+        /// 平滑插值 shader算法
+        /// </summary>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static float SmoothStep(float t1, float t2, float x)
+        {
+            x = Mathf.Clamp((x - t1) / (t2 - t1), 0.0f, 1.0f);
+            return x * x * (3 - 2 * x);
+        }
 
         /// <summary>
         /// 非线性插值

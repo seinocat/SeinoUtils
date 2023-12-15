@@ -14,7 +14,7 @@ namespace Seino.Utils.Tick
         public TickChannel CreateChannel<T>(IList<T> dataList, Action executor) where T : class
         {
             TickChannel channel = new TickChannel();
-            
+            return channel;
         }
         
         // public TickChannel CreateChannel<T1, T2>(IDictionary<T1, T2> dataList, Func<T1, T2> executer) where T2 : class

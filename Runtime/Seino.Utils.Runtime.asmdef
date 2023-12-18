@@ -1,10 +1,8 @@
 {
-    "name": "SeinoUtils.Editor",
+    "name": "Seino.Utils.Runtime",
     "rootNamespace": "",
-    "references": ["GUID:a0a573bfe0f2b5646b3ee4d1b1524a61"],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

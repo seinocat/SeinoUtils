@@ -19,7 +19,7 @@ namespace Seino.Utils.Tick
             while (count-- > 0)
             {
                 long id = m_updates.Dequeue();
-                if (m_channels.TryGetValue(id, out TickChannel channel)) continue;
+                if (!m_channels.TryGetValue(id, out TickChannel channel)) continue;
                 if (channel.IsPause) continue;
                 
                 channel.Update(Time.deltaTime);

@@ -8,14 +8,14 @@ namespace Seino.Utils.Tick
 
         private float m_IntervalTime;
         private float m_curtime;
-        private float m_time;
+        private float m_maxtime;
         private float m_ctime;
 
         private int m_frame = 1;
         private Action<float> m_executor;
         private Func<bool> m_predicate;
         private Action m_callback;
-        private TickStatus m_Status = TickStatus.Idle;
+        private TickStatus m_Status;
 
 
         public static TickChannel Create(Func<bool> pre, Action<float> exe, Action call, float time, int frame)
@@ -24,7 +24,7 @@ namespace Seino.Utils.Tick
             channel.m_executor = exe;
             channel.m_predicate = pre;
             channel.m_callback = call;
-            channel.m_time = time;
+            channel.m_maxtime = time;
             channel.m_frame = frame;
             channel.m_IntervalTime = 1f / frame;
             return channel;
@@ -47,7 +47,7 @@ namespace Seino.Utils.Tick
                 m_executor(deltaTime);
             }
 
-            if (m_time > 0f && m_ctime >= m_time)
+            if (m_maxtime > 0f && m_ctime >= m_maxtime)
             {
                 m_callback?.Invoke();
                 OnComplete();

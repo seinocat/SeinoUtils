@@ -20,7 +20,7 @@ namespace Seino.Utils.Tick
             {
                 long id = m_updates.Dequeue();
                 if (!m_tickers.TryGetValue(id, out Ticker ticker)) continue;
-                if (ticker.IsPause) continue;
+                if (ticker.Status != TickStatus.Running) continue;
                 
                 ticker.Update(Time.deltaTime);
                 m_updates.Enqueue(id);
@@ -113,12 +113,12 @@ namespace Seino.Utils.Tick
         /// <summary>
         /// 创建带有中断条件的执行
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="predicate"></param>
-        /// <param name="executor"></param>
-        /// <param name="callback"></param>
-        /// <param name="time"></param>
-        /// <param name="framerate"></param>
+        /// <param name="id">相同id的ticker按channel队列执行</param>
+        /// <param name="predicate">channel完成条件</param>
+        /// <param name="executor">每次update执行逻辑</param>
+        /// <param name="callback">channel完成回调</param>
+        /// <param name="time">最大执行时间(秒), 默认-1表示无限制</param>
+        /// <param name="framerate">执行帧率(默认30帧)</param>
         /// <returns></returns>
         public Ticker Create(long id, Func<bool> predicate, Action<float> executor, Action callback, float time = -1f, int framerate = 30)
         {
@@ -126,13 +126,13 @@ namespace Seino.Utils.Tick
             if (m_tickers.ContainsKey(id))
             {
                 ticker = m_tickers[id];
-                ticker.AddChannel(TickChannel.Create(predicate, executor, callback, time, framerate));
+                var channel = TickChannel.Create(predicate, executor, callback, time, framerate);
+                ticker.AddChannel(channel);
             }
             else
             {
                 ticker = Ticker.Create(id, predicate, executor, callback, time, framerate);
                 m_tickers.Add(ticker.Id, ticker);
-                m_updates.Enqueue(ticker.Id);
             }
             
             return ticker;
@@ -172,11 +172,7 @@ namespace Seino.Utils.Tick
         {
             if (m_tickers.ContainsKey(id))
             {
-                m_tickers[id].Play();;
-                if (!m_updates.Contains(id))
-                {
-                    m_updates.Enqueue(id);
-                }
+                m_tickers[id].Play();
             }
         }
         
@@ -189,6 +185,14 @@ namespace Seino.Utils.Tick
             if (m_tickers.ContainsKey(id))
             {
                 m_tickers[id].Pause();
+            }
+        }
+
+        public void Add(long id)
+        {
+            if (!m_updates.Contains(id))
+            {
+                m_updates.Enqueue(id);
             }
         }
 

@@ -7,6 +7,7 @@ namespace Seino.Utils.Tick
     {
         public TickStatus Status => m_Status;
         public long Id => m_id;
+        public Action OnComplete;
         
         private long m_id;
         private Queue<TickChannel> m_channels = new();
@@ -33,13 +34,19 @@ namespace Seino.Utils.Tick
             }
             else
             {
-                OnComplete();
+                Complete();
             }
         }
 
         public void AddChannel(TickChannel channel)
         {
             m_channels.Enqueue(channel);
+        }
+
+        
+        public void AddChannel(Func<bool> pre, Action<float> exe, Action call, float time, int frame)
+        {
+            AddChannel(TickChannel.Create(pre, exe, call, time, frame));
         }
 
         public void Play()
@@ -53,10 +60,12 @@ namespace Seino.Utils.Tick
             m_Status = TickStatus.Pause;
         }
 
-        public void OnComplete()
+        public void Complete()
         {
             m_Status = TickStatus.Complete;
             SeinoTicker.Instance.Remove(this.m_id);
+            OnComplete?.Invoke();
+            OnComplete = null;
         }
     }
 }

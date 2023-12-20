@@ -29,6 +29,7 @@ namespace Seino.Utils.Tick
             {
                 m_Status = TickStatus.Running;
                 var channel = m_channels.Peek();
+                if (channel.Status == TickStatus.Idle) channel.Play();
                 if (channel.Status == TickStatus.Running) channel.Update(deltaTime);
                 if (channel.Status == TickStatus.Complete) m_channels.Dequeue();
             }

@@ -51,6 +51,11 @@ namespace Seino.Utils.Tick
             }
         }
 
+        public void Play()
+        {
+            m_status = TickStatus.Running;
+        }
+
         public void OnComplete()
         {
             m_status = TickStatus.Complete;

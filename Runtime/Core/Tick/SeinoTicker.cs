@@ -67,6 +67,21 @@ namespace Seino.Utils.Tick
             long id = Guid.NewGuid().GetHashCode();
             return Create(id, predicate, executor, null, time, framerate);
         }
+        
+        /// <summary>
+        /// 创建执行
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="executor"></param>
+        /// <param name="callback"></param>
+        /// <param name="time"></param>
+        /// <param name="framerate"></param>
+        /// <returns></returns>
+        public Ticker Create(Func<bool> predicate, Action<float> executor, Action callback, int framerate = 30)
+        {
+            long id = Guid.NewGuid().GetHashCode();
+            return Create(id, predicate, executor, callback, -1, framerate);
+        }
 
         /// <summary>
         /// 创建执行

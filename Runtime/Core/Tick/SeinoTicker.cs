@@ -20,9 +20,9 @@ namespace Seino.Utils.Tick
             {
                 long id = m_updates.Dequeue();
                 if (!m_tickers.TryGetValue(id, out Ticker ticker)) continue;
-                if (ticker.Status != TickStatus.Running) continue;
+                if (ticker.Status is TickStatus.Running) ticker.Update(Time.deltaTime);
+                if (ticker.Status is TickStatus.Complete or TickStatus.Dispose) m_tickers.Remove(id);
                 
-                ticker.Update(Time.deltaTime);
                 m_updates.Enqueue(id);
             }
         }

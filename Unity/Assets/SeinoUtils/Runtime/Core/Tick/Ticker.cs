@@ -26,7 +26,10 @@ namespace Seino.Utils.Tick
         public void Update(float deltaTime)
         {
             if (m_status == TickStatus.Dispose)
+            {
+                m_channels.Clear();
                 return;
+            }
             
             if (m_channels.Count > 0)
             {
@@ -68,20 +71,17 @@ namespace Seino.Utils.Tick
         {
             m_status = TickStatus.Stop;
         }
-
-        public void Clear()
-        {
-            m_status = TickStatus.Dispose;
-            m_channels.Clear();
-            SeinoTicker.Instance.Remove(this.m_id);
-        }
-
+        
         public void Complete()
         {
             m_status = TickStatus.Complete;
-            SeinoTicker.Instance.Remove(this.m_id);
             OnComplete?.Invoke();
             OnComplete = null;
+        }
+        
+        public void Dispose()
+        {
+            m_status = TickStatus.Dispose;
         }
     }
 }

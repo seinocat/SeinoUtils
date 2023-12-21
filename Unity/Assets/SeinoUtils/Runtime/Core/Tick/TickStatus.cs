@@ -5,6 +5,8 @@
         Idle = 0,
         Running,
         Pause,
-        Complete
+        Stop,
+        Complete,
+        Dispose
     }
 }

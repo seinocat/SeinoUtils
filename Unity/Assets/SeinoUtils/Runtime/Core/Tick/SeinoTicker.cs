@@ -74,7 +74,6 @@ namespace Seino.Utils.Tick
         /// <param name="predicate"></param>
         /// <param name="executor"></param>
         /// <param name="callback"></param>
-        /// <param name="time"></param>
         /// <param name="framerate"></param>
         /// <returns></returns>
         public Ticker Create(Func<bool> predicate, Action<float> executor, Action callback, int framerate = 30)

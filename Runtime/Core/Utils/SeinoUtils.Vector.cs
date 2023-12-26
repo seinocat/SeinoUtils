@@ -27,5 +27,8 @@ namespace Seino.Utils
         
         public static Quaternion Rotation(this Vector3 vector) => Quaternion.Euler(vector);
         
+        public static Vector3 Negative(this Vector3 vector) => new Vector3((vector.x + 180) % 360 - 180, (vector.y + 180) % 360 - 180, (vector.z + 180) % 360 - 180);
+
+        
     }
 }

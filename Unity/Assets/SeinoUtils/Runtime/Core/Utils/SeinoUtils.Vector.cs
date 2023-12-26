@@ -25,7 +25,7 @@ namespace Seino.Utils
         
         public static Vector3 Vec3xz(this Vector3 vector) => new Vector3(vector.x, 0, vector.z);
         
-        
+        public static Quaternion Rotation(this Vector3 vector) => Quaternion.Euler(vector);
         
     }
 }

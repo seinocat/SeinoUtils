@@ -11,66 +11,68 @@ namespace Seino.Utils
         ///----------------------------------------------------------------------------------------------
 
         public static float Ease(EaseType type, float from, float to, float t) {
-            if ( t <= 0 ) { return from; }
-            if ( t >= 1 ) { return to; }
+            if ( t <= 0 ) return from;
+            if ( t >= 1 ) return to;
             return Mathf.LerpUnclamped(from, to, Function(type)(t));
         }
 
         public static Vector3 Ease(EaseType type, Vector3 from, Vector3 to, float t) {
-            if ( t <= 0 ) { return from; }
-            if ( t >= 1 ) { return to; }
+            if ( t <= 0 ) return from;
+            if ( t >= 1 ) return to;
             return Vector3.LerpUnclamped(from, to, Function(type)(t));
         }
 
         public static Quaternion Ease(EaseType type, Quaternion from, Quaternion to, float t) {
-            if ( t <= 0 ) { return from; }
-            if ( t >= 1 ) { return to; }
+            if ( t <= 0 ) return from;
+            if ( t >= 1 ) return to;
             return Quaternion.LerpUnclamped(from, to, Function(type)(t));
         }
 
         public static Color Ease(EaseType type, Color from, Color to, float t) {
-            if ( t <= 0 ) { return from; }
-            if ( t >= 1 ) { return to; }
+            if ( t <= 0 ) return from;
+            if ( t >= 1 ) return to;
             return Color.LerpUnclamped(from, to, Function(type)(t));
         }
 
         ///----------------------------------------------------------------------------------------------
 
-        public static Func<float, float> Function(EaseType type) {
-            switch ( type ) {
-                case EaseType.Linear: return Linear;
-                case EaseType.QuadraticIn: return QuadraticIn;
-                case EaseType.QuadraticOut: return QuadraticOut;
-                case EaseType.QuadraticInOut: return QuadraticInOut;
-                case EaseType.QuarticIn: return QuarticIn;
-                case EaseType.QuarticOut: return QuarticOut;
-                case EaseType.QuarticInOut: return QuarticInOut;
-                case EaseType.QuinticIn: return QuinticIn;
-                case EaseType.QuinticOut: return QuinticOut;
-                case EaseType.QuinticInOut: return QuinticInOut;
-                case EaseType.CubicIn: return CubicIn;
-                case EaseType.CubicOut: return CubicOut;
-                case EaseType.CubicInOut: return CubicInOut;
-                case EaseType.ExponentialIn: return ExponentialIn;
-                case EaseType.ExponentialOut: return ExponentialOut;
-                case EaseType.ExponentialInOut: return ExponentialInOut;
-                case EaseType.CircularIn: return CircularIn;
-                case EaseType.CircularOut: return CircularOut;
-                case EaseType.CircularInOut: return CircularInOut;
-                case EaseType.SinusoidalIn: return SinusoidalIn;
-                case EaseType.SinusoidalOut: return SinusoidalOut;
-                case EaseType.SinusoidalInOut: return SinusoidalInOut;
-                case EaseType.ElasticIn: return ElasticIn;
-                case EaseType.ElasticOut: return ElasticOut;
-                case EaseType.ElasticInOut: return ElasticInOut;
-                case EaseType.BounceIn: return BounceIn;
-                case EaseType.BounceOut: return BounceOut;
-                case EaseType.BounceInOut: return BounceInOut;
-                case EaseType.BackIn: return BackIn;
-                case EaseType.BackOut: return BackOut;
-                case EaseType.BackInOut: return BackInOut;
-                default: throw new ArgumentOutOfRangeException();
-            }
+        public static Func<float, float> Function(EaseType type)
+        {
+            return type switch
+            {
+                EaseType.Linear => Linear,
+                EaseType.QuadraticIn => QuadraticIn,
+                EaseType.QuadraticOut => QuadraticOut,
+                EaseType.QuadraticInOut => QuadraticInOut,
+                EaseType.QuarticIn => QuarticIn,
+                EaseType.QuarticOut => QuarticOut,
+                EaseType.QuarticInOut => QuarticInOut,
+                EaseType.QuinticIn => QuinticIn,
+                EaseType.QuinticOut => QuinticOut,
+                EaseType.QuinticInOut => QuinticInOut,
+                EaseType.CubicIn => CubicIn,
+                EaseType.CubicOut => CubicOut,
+                EaseType.CubicInOut => CubicInOut,
+                EaseType.ExponentialIn => ExponentialIn,
+                EaseType.ExponentialOut => ExponentialOut,
+                EaseType.ExponentialInOut => ExponentialInOut,
+                EaseType.CircularIn => CircularIn,
+                EaseType.CircularOut => CircularOut,
+                EaseType.CircularInOut => CircularInOut,
+                EaseType.SinusoidalIn => SinusoidalIn,
+                EaseType.SinusoidalOut => SinusoidalOut,
+                EaseType.SinusoidalInOut => SinusoidalInOut,
+                EaseType.ElasticIn => ElasticIn,
+                EaseType.ElasticOut => ElasticOut,
+                EaseType.ElasticInOut => ElasticInOut,
+                EaseType.BounceIn => BounceIn,
+                EaseType.BounceOut => BounceOut,
+                EaseType.BounceInOut => BounceInOut,
+                EaseType.BackIn => BackIn,
+                EaseType.BackOut => BackOut,
+                EaseType.BackInOut => BackInOut,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
         ///----------------------------------------------------------------------------------------------

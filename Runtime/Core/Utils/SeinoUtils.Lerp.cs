@@ -77,7 +77,7 @@ namespace Seino.Utils
 
         #endregion
 
-        #region 多值
+        #region 多值插值
 
         public static Vector2 Lerp(this Vector2 value, Vector2 from, Vector2 to, float t, EaseType type = EaseType.Linear)
         {

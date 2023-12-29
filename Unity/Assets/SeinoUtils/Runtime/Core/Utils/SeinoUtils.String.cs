@@ -15,7 +15,7 @@ namespace Seino.Utils
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Combine(List<string> value)
+        public static string Combine(this List<string> value)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < value.Count; i++)
@@ -29,7 +29,7 @@ namespace Seino.Utils
         /// <param name="value"></param>
         /// <param name="symbol"></param>
         /// <returns></returns>
-        public static string Combine(List<string> value, char symbol)
+        public static string Combine(this List<string> value, char symbol)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < value.Count; i++)

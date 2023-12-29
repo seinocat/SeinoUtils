@@ -96,7 +96,7 @@ namespace Seino.Utils
         }
 
         public static float QuarticOut(float t) {
-            return 1f - ( --t * t * t * t );
+            return 1f - (t * t * t * t );
         }
 
         public static float QuarticInOut(float t) {
@@ -110,7 +110,7 @@ namespace Seino.Utils
         }
 
         public static float QuinticOut(float t) {
-            return --t * t * t * t * t + 1f;
+            return t * t * t * t * t + 1f;
         }
 
         public static float QuinticInOut(float t) {
@@ -124,7 +124,7 @@ namespace Seino.Utils
         }
 
         public static float CubicOut(float t) {
-            return --t * t * t + 1f;
+            return t * t * t + 1f;
         }
 
         public static float CubicInOut(float t) {

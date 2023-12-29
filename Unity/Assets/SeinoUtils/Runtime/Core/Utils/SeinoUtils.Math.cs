@@ -1,78 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Seino.Utils
 {
     public static partial class SeinoUtils
     {
-        /// <summary>
-        /// 线性插值
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="target"></param>
-        /// <param name="increaseSpeed"></param>
-        /// <param name="decreaseSpeed"></param>
-        /// <returns></returns>
-        public static float LerpValue(float value, float target, float increaseSpeed, float decreaseSpeed) {
-            if (Math.Abs(value - target) < 0.01f) return target; 
-            if (value < target) return Mathf.Clamp(value + Time.deltaTime * increaseSpeed, -Mathf.Infinity, target);
-            return Mathf.Clamp(value - Time.deltaTime * decreaseSpeed, target, Mathf.Infinity);
-        }
-        
-        /// <summary>
-        /// 平滑插值 shader算法
-        /// </summary>
-        /// <param name="t1"></param>
-        /// <param name="t2"></param>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public static float SmoothStep(float t1, float t2, float x)
-        {
-            x = Mathf.Clamp((x - t1) / (t2 - t1), 0.0f, 1.0f);
-            return x * x * (3 - 2 * x);
-        }
-
-        /// <summary>
-        /// 非线性插值
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="target"></param>
-        /// <param name="velocity"></param>
-        /// <param name="time"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static float LerpDamper(float value, float target, ref float velocity, float time, LerpType type)
-        {
-            switch (type)
-            {
-                case LerpType.SampleDamper:
-                    return SampleDamper(value, target, ref velocity, time);
-                case LerpType.Damper:
-                    return Mathf.SmoothDamp(value, target, ref velocity, time);
-            }
-
-            return 0;
-        }
-        
-        /// <summary>
-        /// 简化临界阻尼插值
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="target"></param>
-        /// <param name="velocity"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public static float SampleDamper(float value, float target, ref float velocity, float time)
-        {
-            var omega = 2.0f / time;
-            float x = omega * Time.deltaTime;
-            float exp = 1.0f / (1.0f + x + 0.48f * x * x + 0.235f * x * x * x);
-            float change = value - target;
-            float temp = (velocity + omega * change) * Time.deltaTime;
-            velocity = (velocity - omega * temp) * exp;
-            return target + (change + temp) * exp;
-        }
-        
         /// <summary>
         /// 求直线和平面的交点
         /// p = R + tV

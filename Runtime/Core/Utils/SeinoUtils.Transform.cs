@@ -9,6 +9,8 @@ namespace Seino.Utils
      */
     public static partial class SeinoUtils
     {
+        #region 查找
+
         /// <summary>
         /// 按名称查找节点
         /// </summary>
@@ -117,5 +119,27 @@ namespace Seino.Utils
 
             return null;
         }
+
+        #endregion
+
+        #region 变换
+
+        /// <summary>
+        /// 获取参照目标本地坐标和旋转对应的世界坐标和旋转
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public static (Vector3 position, Quaternion rotation) GetWorldPositionAndRotation(this Transform transform, Vector3 position, Quaternion rotation)
+        {
+            Vector3 pos = transform.localToWorldMatrix.MultiplyPoint(position);
+            Quaternion rot = transform.rotation * rotation;
+            return (pos, rot);
+        }
+        
+
+        #endregion
+        
     }
 }

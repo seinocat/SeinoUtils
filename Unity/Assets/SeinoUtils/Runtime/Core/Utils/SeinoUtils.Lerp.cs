@@ -89,6 +89,11 @@ namespace Seino.Utils
             return Vector3.Lerp(from, to, Easing.Function(type)(t));
         }
         
+        public static Vector4 Lerp(this Vector4 value, Vector4 from, Vector4 to, float t, EaseType type = EaseType.Linear)
+        {
+            return Vector4.Lerp(from, to, Easing.Function(type)(t));
+        }
+        
         public static Color Lerp(this Color value, Color from, Color to, float t, EaseType type = EaseType.Linear)
         {
             return Color.Lerp(from, to, Easing.Function(type)(t));

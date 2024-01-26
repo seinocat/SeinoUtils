@@ -1,9 +1,9 @@
 ﻿{
   "name": "com.seinocat.utils",
   "displayName": "Seino Utils",
-  "description": "some utils for unity",
+  "description": "utils for unity",
   "url" : "https://github.com/seinocat/SeinoUtils.git",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "unity": "2020.3",
   "author": {
     "name": "SeinoCat"

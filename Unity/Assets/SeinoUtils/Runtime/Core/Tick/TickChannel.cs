@@ -36,7 +36,7 @@ namespace Seino.Utils.Tick
             m_status = TickStatus.Running;
             if (m_curtime >= m_gaptime)
             {
-                m_curtime = 0;
+                m_curtime -= m_gaptime;
                 if (m_predicate?.Invoke()??false)
                 {
                     OnComplete();

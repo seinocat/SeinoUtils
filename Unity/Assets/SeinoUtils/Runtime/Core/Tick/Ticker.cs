@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Seino.Utils.Tick
 {
+    /// <summary>
+    /// TickChannel的队列
+    /// </summary>
     public class Ticker
     {
         public TickStatus Status => m_status;

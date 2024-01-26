@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Seino.Utils.Tick
 {
     /// <summary>
-    /// 用于update执行逻辑
+    /// 带有中止条件判断的update逻辑执行
+    /// Ticker之间是并行执行，Ticker内的Channel按队列执行
     /// </summary>
     public class SeinoTicker : MonoSingleton<SeinoTicker>
     {

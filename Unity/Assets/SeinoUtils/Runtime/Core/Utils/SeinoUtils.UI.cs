@@ -30,5 +30,19 @@ namespace Seino.Utils
             Vector2 uiPos = new Vector2(viewPos.x * rect.width, viewPos.y * rect.height) + offset;
             return uiPos;
         }
+
+        /// <summary>
+        /// 屏幕坐标转UI坐标
+        /// </summary>
+        /// <param name="camera"></param>
+        /// <param name="rect"></param>
+        /// <param name="screenPos"></param>
+        /// <returns></returns>
+        public static Vector2 ScreenToUIPos(this Camera camera, RectTransform rect, Vector2 screenPos)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPos,
+                camera, out Vector2 uiPos);
+            return uiPos;
+        }
     }
 }

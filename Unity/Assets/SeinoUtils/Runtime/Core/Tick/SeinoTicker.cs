@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Seino.Utils.Tick
 {
     /// <summary>
-    /// 带有中止条件判断的update逻辑执行
+    /// 带有中止条件判断的update逻辑执行, 不受时间缩放影响
     /// Ticker之间是并行执行，Ticker内的Channel按队列执行
     /// </summary>
     public class SeinoTicker : MonoSingleton<SeinoTicker>
@@ -21,7 +21,7 @@ namespace Seino.Utils.Tick
             {
                 long id = m_updates.Dequeue();
                 if (!m_tickers.TryGetValue(id, out Ticker ticker)) continue;
-                if (ticker.Status is TickStatus.Running) ticker.Update(Time.deltaTime);
+                if (ticker.Status is TickStatus.Running) ticker.Update(Time.unscaledDeltaTime);
                 if (ticker.Status is TickStatus.Complete or TickStatus.Dispose) m_tickers.Remove(id);
                 
                 m_updates.Enqueue(id);
@@ -48,6 +48,19 @@ namespace Seino.Utils.Tick
         /// <param name="framerate"></param>
         /// <returns></returns>
         public Ticker Create(Action<float> executor, int framerate = 30)
+        {
+            long id = Guid.NewGuid().GetHashCode();
+            return Create(id, null, executor, null, -1, framerate);
+        }
+        
+        /// <summary>
+        /// 创建执行
+        /// </summary>
+        /// <param name="executor"></param>
+        /// <param name="callback"></param>
+        /// <param name="framerate"></param>
+        /// <returns></returns>
+        public Ticker Create(Action<float> executor, Action callback, int framerate = 30)
         {
             long id = Guid.NewGuid().GetHashCode();
             return Create(id, null, executor, null, -1, framerate);

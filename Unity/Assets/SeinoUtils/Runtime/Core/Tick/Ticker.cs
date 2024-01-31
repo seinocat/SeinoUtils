@@ -16,10 +16,20 @@ namespace Seino.Utils.Tick
         private Queue<TickChannel> m_channels = new();
         private TickStatus m_status;
         
-        public static Ticker Create(long id, Func<bool> pre, Action<float> exe, Action call, float time, int frame)
+        public static Ticker CreateFramer(long id, Func<bool> pre, Action<float> exe, Action call, float time = -1, int frame = 30)
         {
             Ticker ticker = new Ticker();
-            TickChannel channel = TickChannel.Create(pre, exe, call, time, frame);
+            TickChannel channel = TickChannel.CreateFramer(pre, exe, call, time, frame);
+            ticker.m_id = id;
+            ticker.m_status = TickStatus.Idle;
+            ticker.AddChannel(channel);
+            return ticker;
+        }
+        
+        public static Ticker CreateTimer(long id, Func<bool> pre, Action<float> exe, Action call, float time, int loop = -1)
+        {
+            Ticker ticker = new Ticker();
+            TickChannel channel = TickChannel.CreateTimer(pre, exe, call, time, loop);
             ticker.m_id = id;
             ticker.m_status = TickStatus.Idle;
             ticker.AddChannel(channel);
@@ -53,16 +63,20 @@ namespace Seino.Utils.Tick
             m_channels.Enqueue(channel);
         }
 
-        
-        public void AddChannel(Func<bool> pre, Action<float> exe, Action call, float time, int frame)
+        public void AddFrameChannel(Func<bool> pre, Action<float> exe, Action call, float time, int frame)
         {
-            AddChannel(TickChannel.Create(pre, exe, call, time, frame));
+            AddChannel(TickChannel.CreateFramer(pre, exe, call, time, frame));
+        }
+        
+        public void AddTimeChannel(Func<bool> pre, Action<float> exe, Action call, float time, int loop)
+        {
+            AddChannel(TickChannel.CreateFramer(pre, exe, call, time, loop));
         }
 
         public void Play()
         {
             m_status = TickStatus.Running;
-            SeinoTicker.Instance.Add(m_id);
+            TickerManager.Instance.Schedule(m_id);
         }
 
         public void Pause()

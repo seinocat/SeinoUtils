@@ -6,10 +6,10 @@ using UnityEngine;
 namespace Seino.Utils.Tick
 {
     /// <summary>
-    /// 带有中止条件判断的update逻辑执行, 不受时间缩放影响
+    /// 带有中止条件判断的update逻辑执行, 按帧率或者时间间隔执行
     /// Ticker之间是并行执行，Ticker内的Channel按队列执行
     /// </summary>
-    public class SeinoTicker : MonoSingleton<SeinoTicker>
+    public class TickerManager : MonoSingleton<TickerManager>
     {
         private Dictionary<long, Ticker> m_tickers = new();
         private Queue<long> m_updates = new();
@@ -27,7 +27,9 @@ namespace Seino.Utils.Tick
                 m_updates.Enqueue(id);
             }
         }
-        
+
+        #region 创建器
+
         /// <summary>
         /// 创建执行
         /// </summary>
@@ -179,16 +181,32 @@ namespace Seino.Utils.Tick
             if (m_tickers.ContainsKey(id))
             {
                 ticker = m_tickers[id];
-                var channel = TickChannel.Create(predicate, executor, callback, time, framerate);
+                var channel = TickChannel.CreateFramer(predicate, executor, callback, time, framerate);
                 ticker.AddChannel(channel);
             }
             else
             {
-                ticker = Ticker.Create(id, predicate, executor, callback, time, framerate);
+                ticker = Ticker.CreateFramer(id, predicate, executor, callback, time, framerate);
                 m_tickers.Add(ticker.Id, ticker);
             }
             
             return ticker;
+        }
+        
+        #endregion
+
+        public void AddTicker(Ticker ticker)
+        {
+            if (!m_tickers.ContainsKey(ticker.Id))
+            {
+                m_tickers.Add(ticker.Id, ticker);
+            }
+        }
+        
+        public void ScheduleTicker(Ticker ticker)
+        {
+            AddTicker(ticker);
+            Schedule(ticker.Id);
         }
         
         /// <summary>
@@ -218,18 +236,6 @@ namespace Seino.Utils.Tick
         }
         
         /// <summary>
-        /// 执行
-        /// </summary>
-        /// <param name="id"></param>
-        public void Play(long id)
-        {
-            if (m_tickers.ContainsKey(id))
-            {
-                m_tickers[id].Play();
-            }
-        }
-        
-        /// <summary>
         /// 暂停执行
         /// </summary>
         /// <param name="id"></param>
@@ -241,7 +247,7 @@ namespace Seino.Utils.Tick
             }
         }
 
-        public void Add(long id)
+        public void Schedule(long id)
         {
             if (!m_updates.Contains(id))
             {
@@ -265,7 +271,7 @@ namespace Seino.Utils.Tick
         }
 
         /// <summary>
-        /// 暂停全部
+        /// 暂停全部，慎用，会停止所有逻辑运行
         /// </summary>
         public void PauseAll()
         {

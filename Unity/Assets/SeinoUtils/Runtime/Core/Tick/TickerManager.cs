@@ -195,6 +195,12 @@ namespace Seino.Utils.Tick
         
         #endregion
 
+        #region 通用方法
+        
+        /// <summary>
+        /// 添加Ticker
+        /// </summary>
+        /// <param name="ticker"></param>
         public void AddTicker(Ticker ticker)
         {
             if (!m_tickers.ContainsKey(ticker.Id))
@@ -203,6 +209,10 @@ namespace Seino.Utils.Tick
             }
         }
         
+        /// <summary>
+        /// 添加并执行Ticker
+        /// </summary>
+        /// <param name="ticker"></param>
         public void ScheduleTicker(Ticker ticker)
         {
             AddTicker(ticker);
@@ -210,10 +220,10 @@ namespace Seino.Utils.Tick
         }
         
         /// <summary>
-        /// 移除执行
+        /// 移除Ticker
         /// </summary>
         /// <param name="id"></param>
-        public void Remove(long id)
+        public void RemoveTicker(long id)
         {
             if (m_tickers.ContainsKey(id))
             {
@@ -258,11 +268,11 @@ namespace Seino.Utils.Tick
         /// <summary>
         /// 执行全部
         /// </summary>
-        public void PlayAll()
+        public void ScheduleAll()
         {
             foreach (var kv in m_tickers)
             {
-                kv.Value.Play();
+                kv.Value.Schedule();
                 if (!m_updates.Contains(kv.Key))
                 {
                     m_updates.Enqueue(kv.Key);
@@ -280,5 +290,7 @@ namespace Seino.Utils.Tick
                 kv.Value.Pause();
             }
         }
+        
+        #endregion
     }
 }

@@ -6,14 +6,13 @@ namespace Seino.Utils.Tick
     {
         public TickStatus Status => m_status;
         
-        private float m_deltatime;// update间隔
-        private float m_curtime;// 本轮时间
-        private float m_maxtime;// 最大执行时间
-        private float m_totaltime; // 已执行时间
+        private float m_deltatime; //update间隔
+        private float m_curtime; //本轮时间
+        private float m_maxtime; //最大执行时间
+        private float m_totaltime; //已执行时间
         private float m_loop; //循环次数，默认-1无限制
         private int m_count; //已执行次数
         
-        private int m_framerate = 1;
         private Action<float> m_executor; //执行逻辑
         private Func<bool> m_predicate; //条件判断
         private Action m_complete;
@@ -38,7 +37,6 @@ namespace Seino.Utils.Tick
             channel.m_predicate = pre;
             channel.m_complete = callback;
             channel.m_maxtime = time;
-            channel.m_framerate = frame;
             channel.m_deltatime = 1f / frame;
             return channel;
         }
@@ -101,7 +99,6 @@ namespace Seino.Utils.Tick
             {
                 m_status = TickStatus.Running;
             }
-            
         }
 
         public void OnComplete()

@@ -16,6 +16,16 @@ namespace Seino.Utils.Tick
         private Queue<TickChannel> m_channels = new();
         private TickStatus m_status;
         
+        /// <summary>
+        /// 创建帧执行器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pre"></param>
+        /// <param name="exe"></param>
+        /// <param name="call"></param>
+        /// <param name="time"></param>
+        /// <param name="frame"></param>
+        /// <returns></returns>
         public static Ticker CreateFramer(long id, Func<bool> pre, Action<float> exe, Action call, float time = -1, int frame = 30)
         {
             Ticker ticker = new Ticker();
@@ -26,6 +36,16 @@ namespace Seino.Utils.Tick
             return ticker;
         }
         
+        /// <summary>
+        /// 创建时间执行器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pre">完成条件</param>
+        /// <param name="exe">执行逻辑</param>
+        /// <param name="call">完成回调</param>
+        /// <param name="time">执行间隔时间</param>
+        /// <param name="loop">最大执行次数 默认-1无限制</param>
+        /// <returns></returns>
         public static Ticker CreateTimer(long id, Func<bool> pre, Action<float> exe, Action call, float time, int loop = -1)
         {
             Ticker ticker = new Ticker();
@@ -58,6 +78,36 @@ namespace Seino.Utils.Tick
             }
         }
 
+        /// <summary>
+        /// 获取当前Ticker本轮已经执行的时间
+        /// </summary>
+        /// <returns></returns>
+        public float GetTime()
+        {
+            if (this.m_channels.Count > 0)
+            {
+                var channel = m_channels.Peek();
+                return channel.CurTime;
+            }
+
+            return -1;
+        }
+        
+        /// <summary>
+        /// 获取当前Ticker本轮剩余执行的时间
+        /// </summary>
+        /// <returns></returns>
+        public float GetRemainTime()
+        {
+            if (this.m_channels.Count > 0)
+            {
+                var channel = m_channels.Peek();
+                return channel.RemainTime;
+            }
+
+            return -1;
+        }
+
         public void AddChannel(TickChannel channel)
         {
             m_channels.Enqueue(channel);
@@ -73,7 +123,7 @@ namespace Seino.Utils.Tick
             AddChannel(TickChannel.CreateFramer(pre, exe, call, time, loop));
         }
 
-        public void Play()
+        public void Schedule()
         {
             m_status = TickStatus.Running;
             TickerManager.Instance.Schedule(m_id);

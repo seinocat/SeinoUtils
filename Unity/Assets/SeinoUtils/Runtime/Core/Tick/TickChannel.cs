@@ -70,7 +70,7 @@ namespace Seino.Utils.Tick
             if (m_curtime >= m_deltatime)
             {
                 m_curtime -= m_deltatime;
-                m_executor(deltaTime);
+                m_executor(m_deltatime);
                 m_count++;
                 Check();
             }

@@ -62,6 +62,14 @@ namespace Seino.Utils.Tick
             return channel;
         }
 
+        /// <summary>
+        /// 设置初动时间
+        /// </summary>
+        public void SetTime(float time)
+        {
+            this.m_curtime = time;
+        }
+
         public void Update(float deltaTime)
         {
             m_curtime += deltaTime;

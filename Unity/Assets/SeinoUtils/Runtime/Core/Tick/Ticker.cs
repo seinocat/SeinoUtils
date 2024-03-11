@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Seino.Utils.Tick
 {
@@ -75,6 +76,20 @@ namespace Seino.Utils.Tick
             else
             {
                 Complete();
+            }
+        }
+
+        /// <summary>
+        /// 设置Channel时间
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="index"></param>
+        public void SetTime(float time, int index = 0)
+        {
+            if (this.m_channels.Count > 0)
+            {
+                var channel = m_channels.ElementAt(index);
+                channel.SetTime(time);
             }
         }
 

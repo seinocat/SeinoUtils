@@ -44,5 +44,19 @@ namespace Seino.Utils
                 camera, out Vector2 uiPos);
             return uiPos;
         }
+        
+        /// <summary>
+        /// 十六进制转Color
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        public static Color HexToColor(string hex)
+        {
+            hex = hex.Replace("#", "");
+            byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            return new Color32(r, g, b, 255);
+        }
     }
 }

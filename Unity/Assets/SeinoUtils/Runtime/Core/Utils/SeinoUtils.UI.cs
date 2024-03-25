@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Seino.Utils
 {
@@ -58,5 +61,57 @@ namespace Seino.Utils
             byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
             return new Color32(r, g, b, 255);
         }
+        
+
+
+        /// <summary>
+        /// 解析富文本(不支持多重标签)
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static List<RichTextData> ParseRichText(ref string text)
+        {
+            List<RichTextData> richTextDatas = new List<RichTextData>();
+            Regex regex  = new Regex( "<(color|size|b|i|u)(=[^>]*)?>(.*?)</\\1>");
+
+            var matchs = regex.Matches(text);
+            foreach (Match match in matchs)
+            {
+                if (match.Success)
+                {
+                    RichTextData data = new RichTextData();
+                    data.Index = text.IndexOf(match.Groups[0].Value, StringComparison.Ordinal);
+                    data.TagName = match.Groups[1].Value;
+                    data.Value = match.Groups[2].Value;
+                    data.Length = match.Groups[3].Length;
+                    richTextDatas.Add(data);
+                    text = text.Replace(match.Groups[0].Value, match.Groups[3].Value);
+                }
+            }
+            
+            return richTextDatas;
+        }
+
+        /// <summary>
+        /// 查找富文本标签索引
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static RichTextData FindRichText(this List<RichTextData> datas, int index)
+        {
+            if (datas == null)
+                return null;
+            
+            foreach (var data in datas)
+            {
+                if (index >= data.Index && index < data.Index + data.Length)
+                    return data;
+                
+            }
+
+            return null;
+        }
+        
     }
 }

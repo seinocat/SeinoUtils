@@ -62,8 +62,6 @@ namespace Seino.Utils
             return new Color32(r, g, b, 255);
         }
         
-
-
         /// <summary>
         /// 解析富文本(不支持多重标签)
         /// </summary>
@@ -72,7 +70,7 @@ namespace Seino.Utils
         public static List<RichTextData> ParseRichText(ref string text)
         {
             List<RichTextData> richTextDatas = new List<RichTextData>();
-            Regex regex  = new Regex( "<(color|size|b|i|u)(=[^>]*)?>(.*?)</\\1>");
+            Regex regex  = new Regex("<(color|size|b|i|u)(=[^>]*)?>(.*?)</\\1>");
 
             var matchs = regex.Matches(text);
             foreach (Match match in matchs)
@@ -107,7 +105,6 @@ namespace Seino.Utils
             {
                 if (index >= data.Index && index < data.Index + data.Length)
                     return data;
-                
             }
 
             return null;

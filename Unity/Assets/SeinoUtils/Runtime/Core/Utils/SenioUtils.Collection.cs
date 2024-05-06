@@ -1,19 +1,29 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Seino.Utils
 {
-    public static partial class SenioUtils
+    public static partial class SeinoUtils
     {
+        /// <summary>
+        /// 移动元素到指定索引,其余元素依次前进或后退
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="sourceIndex">当前索引</param>
+        /// <param name="targetIndex">目标索引</param>
+        /// <typeparam name="T"></typeparam>
         private static void MoveElement<T>(ref T[] array, int sourceIndex, int targetIndex)
         {
             if (sourceIndex < 0 || sourceIndex >= array.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(sourceIndex), "Source index is out of range.");
+                Debug.LogError("sourceIndex out of range");
+                return;
             }
 
             if (targetIndex < 0 || targetIndex >= array.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(targetIndex), "Target index is out of range.");
+                Debug.LogError("targetIndex out of range");
+                return;
             }
 
             // 保存要移动的元素

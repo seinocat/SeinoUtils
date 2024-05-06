@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Seino.Utils
 {
-    public partial class SeinoUtils
+    public static partial class SeinoUtils
     {
         /// <summary>
         /// 世界坐标转换UGUI坐标

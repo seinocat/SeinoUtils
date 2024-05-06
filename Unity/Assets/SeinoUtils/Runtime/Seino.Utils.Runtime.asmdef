@@ -1,7 +1,9 @@
 {
     "name": "Seino.Utils.Runtime",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "Unity.Mathematics"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

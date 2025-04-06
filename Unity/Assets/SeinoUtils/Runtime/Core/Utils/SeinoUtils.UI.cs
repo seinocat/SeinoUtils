@@ -30,7 +30,7 @@ namespace Seino.Utils
         public static Vector2 WorldToUguiPoint(this Camera camera, Vector3 position, Rect rect, Vector2 offset)
         {
             Vector3 viewPos = camera.WorldToViewportPoint(position);
-            Vector2 uiPos = new Vector2(viewPos.x * rect.width, viewPos.y * rect.height) + offset;
+            Vector2 uiPos   = new Vector2(viewPos.x * rect.width, viewPos.y * rect.height) + offset;
             return uiPos;
         }
 
@@ -77,13 +77,14 @@ namespace Seino.Utils
             {
                 if (match.Success)
                 {
-                    RichTextData data = new RichTextData();
-                    data.Index = text.IndexOf(match.Groups[0].Value, StringComparison.Ordinal);
-                    data.TagName = match.Groups[1].Value;
-                    data.Value = match.Groups[2].Value;
-                    data.Length = match.Groups[3].Length;
+                    RichTextData data   = new RichTextData();
+                    data.Index          = text.IndexOf(match.Groups[0].Value, StringComparison.Ordinal);
+                    data.TagName        = match.Groups[1].Value;
+                    data.Value          = match.Groups[2].Value;
+                    data.Length         = match.Groups[3].Length;
+                    text                = text.Replace(match.Groups[0].Value, match.Groups[3].Value);
+                    
                     richTextDatas.Add(data);
-                    text = text.Replace(match.Groups[0].Value, match.Groups[3].Value);
                 }
             }
             

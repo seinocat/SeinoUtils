@@ -1,134 +1,160 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using TMPro;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
+using TMPro;
 
-[RequireComponent(typeof(TMP_Text))]
 public class RichTextTypeWriter : MonoBehaviour
 {
-    [TextArea(3, 10)]
-    public string FullText;
-    public float TypeSpeed = 0f;
-    public bool IsTyping => m_IsTyping;
+    /// <summary>
+    /// 面板文本
+    /// </summary>
+    [TextArea(5, 10)]
+    public string       EditorText;
+    /// <summary>
+    /// 默认打字速度
+    /// </summary>
+    public float        TypeSpeed = 0.05f;
+    /// <summary>
+    /// 是否正在打字
+    /// </summary>
+    public bool         IsTyping => m_IsTyping;
 
-    private TMP_Text m_TMPText;
-    private bool m_IsTyping;
-    private bool m_IsSkipped;
-    private string m_JoinedTags;
-    private float? m_StaggerValue;
-
+    private string      m_Content;
+    private TMP_Text    m_TMPText;
+    private bool        m_IsTyping;
+    private bool        m_IsSkipped;
+    private string      m_JoinedTags;
+    private float?      m_StaggerValue;
+    
     /// <summary>
     /// 控制标签列表
     /// </summary>
-    private readonly List<string> m_ControlTagL = new()
+    private static readonly List<string> m_ControlTagL = new()
     {
         "delay",
         "speed",
-        "stagger",
         "wait",
     };
 
-    [Button("Play")]
-    public void Play()
+#if ODIN_INSPECTOR && UNITY_EDITOR
+    
+    [Sirenix.OdinInspector.Button("Play")]
+    public async void Play()
     {
-        PlayAsync();
+        m_Content = EditorText;
+        await PlayAsync();
     }
-
+    
+#endif
+    
     private void Awake()
     {
-        m_TMPText = GetComponent<TMP_Text>();
+        m_TMPText    = GetComponent<TMP_Text>();
         m_JoinedTags = string.Join("|", m_ControlTagL);
     }
-
+    
     /// <summary>
-    /// 开始打字效果（使用UniTask，支持await）
+    /// 播放打字
     /// </summary>
-    public async UniTask PlayAsync(string text = null, Action onComplete = null)
+    /// <param name="onComplete"></param>
+    public async UniTask PlayAsync(Action onComplete = null)
     {
-        if (m_IsTyping)
+        if (m_IsTyping || m_TMPText == null)
             return;
 
-        m_IsTyping = true;
+        m_IsTyping  = true;
         m_IsSkipped = false;
 
-        float currentDelay = TypeSpeed;
-        string content = text ?? FullText;
-        var tagsStack = new Stack<string>();
-        var output = new StringBuilder();
-        int i = 0;
-
-        while (i < content.Length)
+        int index            = 0;                   // 文本索引
+        var currentDelay= TypeSpeed;           // 当前速度 
+        var tagStack         = new Stack<string>(); // 富文本标签栈
+        var realText         = new StringBuilder(); // 显示文本     
+        var tempText         = new StringBuilder(); // 临时文本(包含临时的富文本标签)
+        var pureText         = new StringBuilder(); // 纯文本(不包含富文本标签)
+        
+        while (index < m_Content.Length)
         {
             if (m_IsSkipped)
             {
-                m_TMPText.text = StripControlTags(content);
+                m_TMPText.text = StripControlTags(m_Content);
                 break;
             }
-
-            if (content[i] == '<')
+            
+            if (tagStack.Count == 0)
             {
-                int closeIndex = content.IndexOf('>', i);
-                if (closeIndex == -1) 
+                // 没有富文本标签时，将临时文本添加到显示文本
+                realText.Append(tempText);
+                tempText.Clear();
+                pureText.Clear();
+            }
+            
+            if (m_Content[index] == '<')
+            {
+                int closeIndex = m_Content.IndexOf('>', index);
+                if (closeIndex == -1)
                     break;
 
-                string richTag = content.Substring(i, closeIndex - i + 1);
-                // 控制标签
+                string richTag = m_Content.Substring(index, closeIndex - index + 1);
                 if (IsControlTag(richTag))
                 {
+                    currentDelay = ParseTimeValue(richTag);
+                    // wait标签，等待指定时间后继续打字
                     if (richTag.StartsWith("<wait"))
                     {
-                        currentDelay = ParseTimeValue(richTag);
-                        await UniTask.Delay(TimeSpan.FromSeconds(currentDelay)); // 延迟指定的时间
-                        i = closeIndex + 1;
-                        currentDelay = TypeSpeed; // 重置延迟
-                        continue;
+                        await UniTask.Delay(TimeSpan.FromSeconds(currentDelay));
+                        currentDelay = TypeSpeed;
                     }
-
-                    currentDelay = ParseTimeValue(richTag);
-                    i = closeIndex + 1;
+                    
+                    index = closeIndex + 1;
                     continue;
                 }
-
-                // 富文本标签
-                output.Append(richTag);
-                if (richTag[1] == '/')
+                
+                if (richTag[1] == '/') // 富文本标签闭合，弹出栈
                 {
-                    if (tagsStack.Count > 0)
-                        tagsStack.Pop();
+                    if (tagStack.Count > 0)
+                        tagStack.Pop(); 
                 }
-                else
+                else                   // 富文本标签开始, 压入栈
                 {
-                    tagsStack.Push(richTag);
+                    tagStack.Push(richTag);
                 }
 
-                i = closeIndex + 1;
+                index = closeIndex + 1; //将index指向标签结束的位置
                 continue;
             }
+            
+            // 清除临时文本
+            tempText.Clear();
+            pureText.Append(m_Content[index]);
 
-            // 构建显示内容
-            var visible = new StringBuilder();
-            foreach (var richTag in tagsStack)
-                visible.Insert(0, richTag);
-            visible.Append(content[i]);
-            foreach (var richTag in tagsStack)
-                visible.Append(GetClosingTag(richTag));
+            // 插入富文本标签
+            foreach (var richTag in tagStack.Reverse())
+                tempText.Append(richTag);
 
-            m_TMPText.text = output + visible.ToString();
+            // 插入纯文本
+            tempText.Append(pureText);
+
+            // 插入富文本闭合标签
+            foreach (var richTag in tagStack)
+                tempText.Append(GetClosingTag(richTag));
+
+            // 显示文本
+            m_TMPText.text = realText + tempText.ToString();
             await UniTask.Delay(TimeSpan.FromSeconds(currentDelay));
-
-            output.Append(content[i]);
-            i++;
+            
+            index++;
         }
 
         m_IsTyping = false;
-        m_TMPText.text = StripControlTags(content);
+        m_TMPText.text = StripControlTags(m_Content); 
 
         onComplete?.Invoke();
     }
+
 
     /// <summary>
     /// 跳过
@@ -154,7 +180,6 @@ public class RichTextTypeWriter : MonoBehaviour
     /// <returns></returns>
     private bool IsControlTag(string richTag)
     {
-        // 使用正则表达式来识别控制标签（可以是自闭合标签）
         return Regex.IsMatch(richTag, $@"^<\/?({m_JoinedTags})(=[^>]*)?>$", RegexOptions.IgnoreCase);
     }
 
@@ -165,46 +190,13 @@ public class RichTextTypeWriter : MonoBehaviour
     /// <returns></returns>
     private float ParseTimeValue(string richTag)
     {
-        foreach (var ctrTag in m_ControlTagL)
-        {
-            if (richTag.StartsWith($"<{ctrTag}="))
-            {
-                var val = ParseTagValue(ctrTag, richTag);
-                
-                if (ctrTag == "wait")
-                {
-                    if (float.TryParse(val, out float waitTime))
-                        return waitTime;
-                    return TypeSpeed;
-                }
-
-                if (ctrTag == "stagger")
-                {
-                    if (float.TryParse(val, out float s))
-                        m_StaggerValue = s;
-                    else if (val.Equals("slow", StringComparison.OrdinalIgnoreCase))
-                        m_StaggerValue = 0.3f;
-                    else if (val.Equals("fast", StringComparison.OrdinalIgnoreCase))
-                        m_StaggerValue = 0.05f;
-                    else if (val.Equals("word", StringComparison.OrdinalIgnoreCase))
-                        m_StaggerValue = -1f; // 保留字：按词暂停
-                    return TypeSpeed;
-                }
-
-                if (float.TryParse(val, out float f))
-                    return f;
-                return TypeSpeed;
-            }
-
-            // 关闭 stagger，恢复默认
-            if (richTag.StartsWith($"</{ctrTag}"))
-            {
-                if (ctrTag == "stagger")
-                    m_StaggerValue = null;
-                return TypeSpeed;
-            }
-        }
-
+        var match = Regex.Match(richTag, @"^<\/?(?<tag>\w+)(=(?<val>[^>]+))?>$", RegexOptions.IgnoreCase);
+        if (!match.Success)
+            return TypeSpeed;
+        
+        string val = match.Groups["val"].Value;
+        if (float.TryParse(val, out float time))
+            return time;
         return TypeSpeed;
     }
 
@@ -218,7 +210,7 @@ public class RichTextTypeWriter : MonoBehaviour
     {
         var pattern = $"^<{tagName}=([^>]+)>$";
         var match = Regex.Match(richTag, pattern, RegexOptions.IgnoreCase);
-        return match.Success ? match.Groups[1].Value : null;
+        return match.Success ? match.Groups[1].Value : TypeSpeed.ToString();
     }
 
     /// <summary>
@@ -228,8 +220,7 @@ public class RichTextTypeWriter : MonoBehaviour
     /// <returns></returns>
     private string GetClosingTag(string openTag)
     {
-        int spaceIndex = openTag.IndexOf(' ');
-        int tagNameEnd = (spaceIndex != -1) ? spaceIndex : openTag.IndexOf('>');
+        int tagNameEnd = openTag.IndexOfAny(new[] { ' ', '=', '>' });
         string tagName = openTag.Substring(1, tagNameEnd - 1);
         return $"</{tagName}>";
     }

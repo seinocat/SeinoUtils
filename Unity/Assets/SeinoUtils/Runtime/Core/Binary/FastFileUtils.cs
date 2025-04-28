@@ -398,7 +398,24 @@ namespace Seino.Utils.FastFileReader
             int z = reader.ReadInt32();
             return new Vector3Int(x, y, z);
         }
-
+        
+        public static void Write(this BinaryWriter writer, Color value)
+        {
+            writer.Write(value.r);
+            writer.Write(value.g);
+            writer.Write(value.b);
+            writer.Write(value.a);
+        }
+        
+        public static Color ReadColor(this BinaryReader reader)
+        {
+            float r = reader.ReadSingle();
+            float g = reader.ReadSingle();
+            float b = reader.ReadSingle();
+            float a = reader.ReadSingle();
+            return new Color(r, g, b, a);
+        }
+        
         public static void Write(this BinaryWriter writer, Matrix4x4 value)
         {
             writer.Write(value.GetColumn(0));
